@@ -1,0 +1,67 @@
+import java.util.*;
+class Player {
+    String name;
+    int score;
+    public Player(String name) {
+        this.name = name;
+        this.score = 0;
+    }
+
+    public void points(int guesses) {
+        this.score=100-guesses;
+    }
+
+    public String getname() {
+        return name;
+    }
+
+    public int getpoints() {
+        return score;
+    }
+}
+class game extends Player {
+    public game(String name) {
+        super(name);
+    }
+    public void playGame() {
+        Random r = new Random();
+        Scanner ash = new Scanner(System.in);
+        int target = r.nextInt(100) + 1;
+        int total = 0;
+        int guess = 0;
+        System.out.println("Welcome "+name+"! Guess a number between 1 and 100:");
+        while (guess != target) {
+            System.out.print("Enter your guess: ");
+            guess = ash.nextInt();
+            total++;
+            if (guess<target) {
+                System.out.println("Too low! Try again.");
+            } else if (guess>target) {
+                System.out.println("Too high! Try again.");
+            } else {
+                System.out.println("Congratulations " + name + "! You've guessed the number in " + total + " guesses.");
+                points(total);
+            }
+        }
+    }
+}
+class pro{
+    public static void main(String[] args) {
+        Scanner ash=new Scanner(System.in);
+        System.out.print("Enter the number of players: ");
+        int n = ash.nextInt();
+        ash.nextLine(); 
+        game[] p = new game[n];
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter the name of Player " +(i+1)+": ");
+            p[i] = new game(ash.nextLine());
+        }
+        for (game i : p) {
+            i.playGame();
+        }
+        System.out.println("\n**********Scores**********");
+        for (game i : p) {
+            System.out.println(i.getname()+"=> "+i.getpoints());
+        }
+    }
+}
